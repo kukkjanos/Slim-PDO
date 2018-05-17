@@ -7,6 +7,7 @@
 
 namespace Slim\PDO\Clause;
 
+use Slim\PDO\Statement\StatementCombination;
 /**
  * Class WhereClause.
  *
@@ -21,7 +22,14 @@ class WhereClause extends ClauseContainer
      */
     public function where($column, $operator = null, $chainType = 'AND')
     {
-        $this->container[] = ' '.$chainType.' '.$column.' '.$operator.' ?';
+        if ($column instanceof StatementCombination)
+        {
+            $this->container[] = ' '.$chainType.' '.$column;
+        }
+        else
+        {
+            $this->container[] = ' '.$chainType.' '.$column.' '.$operator.' ?';
+        }
     }
 
     /**
